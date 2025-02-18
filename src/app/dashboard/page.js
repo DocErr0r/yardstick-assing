@@ -50,7 +50,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <Modal>
-                <TransactionForm onTransactionAdded={triggerRefresh} editData={editData} setEditData={setEditData} />
+                <TransactionForm onTransactionAdded={triggerRefresh} closeModal={closeModal} editData={editData} setEditData={setEditData} />
             </Modal>
         </div>
     );
