@@ -1,4 +1,3 @@
-
 'use client';
 import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
@@ -8,20 +7,26 @@ export default function MonthlyExpensesBar({ refresh }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setLoading(true);
-        fetch('/api/transactions', { cache: 'no-store' })
-            .then((res) => res.json())
-            .then((transactions) => {
-                const grouped = transactions.reduce((acc, tx) => {
-                    const month = new Date(tx.date).toLocaleString('default', { month: 'short' });
-                    acc[month] = (acc[month] || 0) + tx.amount;
-                    return acc;
-                }, {});
+        if (typeof window !== 'undefined') {
+            setLoading(true);
+            fetch('/api/transactions', { cache: 'no-store' })
+                .then((res) => res.json())
+                .then((transactions) => {
+                    const grouped = transactions.reduce((acc, tx) => {
+                        const month = new Date(tx.date).toLocaleString('default', { month: 'short' });
+                        acc[month] = (acc[month] || 0) + tx.amount;
+                        return acc;
+                    }, {});
 
-                setData(Object.entries(grouped).map(([month, total]) => ({ month, total })));
-                setLoading(false);
-            });
-    }, [refresh]); 
+                    setData(Object.entries(grouped).map(([month, total]) => ({ month, total })));
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                    setLoading(false);
+                });
+        }
+    }, [refresh]);
 
     if (loading) return <p>Loading...</p>;
 
