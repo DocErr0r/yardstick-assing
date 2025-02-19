@@ -2,7 +2,7 @@
 import { useState } from "react";
 import TransactionForm from "@/components/TransactionForm";
 import TransactionList from "@/components/TransactionList";
-import MonthlyExpensesBar from "@/components/Charts/MonthlyExpensesBar";
+import MonthlyExpensesBar from "@/components/charts/MonthlyExpensesBar";
 import { Button } from "@/components/ui/button";
 
 export default function Dashboard() {
